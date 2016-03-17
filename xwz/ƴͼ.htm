@@ -1,0 +1,236 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<style type="text/css">
+	ul
+	{
+		display:block;
+		float:left;
+		margin-left:500px;
+		padding:20px;
+		list-style-type:none
+	}
+	li
+	{
+		float:left;
+	}
+	a:link,a:visited
+	{
+		display:block;
+		width:100px;
+		font-weight:bold;
+		background-color:gray;
+		color:white;
+		padding:5px;
+		text-align:center;
+		text-decoration:none;
+		text-transform:uppercase;
+	}
+	a:hover,a:active
+	{
+		background-color:red;
+		font-size:120%;
+	}
+	body 
+	{
+		background-image: url(res/sunny.jpg);
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+	}
+	#div00
+	{
+		margin-left:570px;
+		width:265px;
+	}
+	#div01, #div02, #div03, #div04, #div05, #div06, #div07, #div08, #div09, #div10, #div11, #div12
+	{
+		float:left;
+		width:86px;
+		height:73px;
+		margin:0px;
+		padding:0px;
+		border:1px
+		solid #000000;
+	}
+
+	@-webkit-keyframes redPulse {
+		from { background-color: #bc330d; -webkit-box-shadow: 0 0 9px #333; }
+		50% { background-color: #e33100; -webkit-box-shadow: 0 0 18px #e33100; }
+		to { background-color: #bc330d; -webkit-box-shadow: 0 0 9px #333; }
+	}
+	#button1 {
+		clear:both;
+		margin-left:655px;
+		margin-bottom:20px;
+		width:100px;
+		-webkit-animation-name: redPulse;
+		-webkit-animation-duration: 1s;
+		-webkit-animation-iteration-count: infinite;
+		text-align:center;
+	}
+	
+	@-webkit-keyframes redPulse {
+		from { background-color: #bc330d;left:200px;top:80px; -webkit-box-shadow: 0 0 9px #333; }
+		50% { background-color: #e33100;left:300px;top:80px; -webkit-box-shadow: 0 0 18px #e33100; }
+		57% { background-color: #e33100;left:140px;top:80px; -webkit-box-shadow: 0 0 18px #e33100; }
+		70% { background-color: #e33100;left:245px;top:80px; -webkit-box-shadow: 0 0 18px #e33100; }
+		81% { background-color: #e33100;left:160px;top:80px; -webkit-box-shadow: 0 0 18px #e33100; }
+		89% { background-color: #e33100;left:235px;top:80px; -webkit-box-shadow: 0 0 18px #e33100; }
+		96% { background-color: #e33100;left:195px;top:80px; -webkit-box-shadow: 0 0 18px #e33100; }
+		to { background-color: #bc330d;left:200px;top:80px; -webkit-box-shadow: 0 0 9px #333; }
+	}
+	#time
+	{
+		position:absolute;
+		width:200px;
+		height:120px;
+		line-height:100px;
+		font-family:Georgia;
+		font-weight:bold;
+		border:10px solid;
+		border-radius:80px;
+		font-size:8em;
+		text-align:center;
+		-webkit-animation-name: redPulse;
+		-webkit-animation-duration: 1s;
+		-webkit-animation-iteration-count: infinite;
+		-webkit-animation-play-state:paused;
+	}
+	</style>
+	<script src="jquery-2.1.4.js"></script>
+	<script type="text/javascript">
+		var src_id;
+		var count = 0, i = 20, j = 0;
+		var timer;
+		
+		$(document).ready(function(){
+		  $("#button1").click(function(){
+			$("#div00").fadeToggle("slow");
+			if(j++%2)
+			{
+				document.getElementById("time").style.color="black";
+				document.getElementById("time").fontSize="100%";
+				document.getElementById("time").innerHTML=i;
+				window.load=start_timer();
+			}else
+			{
+				clearInterval(timer);
+				document.getElementById("time").style.webkitAnimationPlayState="paused";
+			}
+		  });
+		});
+		
+		function allowDrop(ev)
+		{
+			ev.preventDefault();
+		}
+
+		function drag(ev)
+		{
+			ev.dataTransfer.setData("Text",ev.target.id);
+			src_id = event.target.id.substr(4,2);
+			//alert(src);
+		}
+
+		function drop(ev)
+		{
+			ev.preventDefault();
+			var data=ev.dataTransfer.getData("Text");
+			var temp_id = event.target.id.substr(0,4);
+			var dst_id = event.target.id.substr(3,2);
+			//alert(temp_id);
+			//alert(event.target.id);
+			if(temp_id != "drag")
+			{
+				//alert(temp_id + " != drag");
+				ev.target.appendChild(document.getElementById(data));
+				if(dst_id == src_id)
+				{
+					//alert(count);
+					if(++count == 9)
+					{
+						clearInterval(timer);
+						i = 20;
+						document.getElementById("time").innerHTML="恭喜！！！";
+						document.getElementById("time").fontSize="80%";
+						document.getElementById("time").style.webkitAnimationPlayState="paused";
+						//alert("恭喜！！！");
+					}
+				}
+			}
+		}
+		
+		function start_timer()
+		{
+			timer = setInterval(function(){count_down()},1000);
+		}
+		function count_down()
+		{
+			i--;
+			document.getElementById("time").innerHTML=i;
+			
+			if(i<=10)
+			{
+				document.getElementById("time").style.webkitAnimationPlayState="running";
+				if(i==0)
+				{
+					clearInterval(timer);
+					document.getElementById("time").innerHTML="傻逼！这么慢！";
+					document.getElementById("time").fontSize="1em";
+					document.getElementById("time").style.webkitAnimationPlayState="paused";
+					i = 20;
+					//alert("傻逼！这么慢！");
+				}
+			}
+		}
+		//window.onload=start_timer();
+	</script>
+</head>
+<body>
+	<ul>
+		<li><a href="导航.htm">主页</a></li>
+		<li><a href="拼图.htm">拼图</a></li>
+		<li><a href="#about">关于</a></li>
+	</ul>
+<div id="timer"><p id="time">20</p></div>
+<div id="button1" style="cursor:pointer">暂停/开始</div>
+<div id="div00">
+	<div id="div01" ondrop="drop(event)" ondragover="allowDrop(event)">
+	  <img src="res/6.jpg" draggable="true" ondragstart="drag(event)" id="drag06" />
+	</div>
+	<div id="div02" ondrop="drop(event)" ondragover="allowDrop(event)">
+	  <img src="res/3.jpg" draggable="true" ondragstart="drag(event)" id="drag03" />
+	</div>
+	<div id="div03" ondrop="drop(event)" ondragover="allowDrop(event)">
+	  <img src="res/9.jpg" draggable="true" ondragstart="drag(event)" id="drag09" />
+	</div>
+	
+	<div id="div04" ondrop="drop(event)" ondragover="allowDrop(event)">
+	  <img src="res/8.jpg" draggable="true" ondragstart="drag(event)" id="drag08" />
+	</div>
+	<div id="div05" ondrop="drop(event)" ondragover="allowDrop(event)">
+	  <img src="res/2.jpg" draggable="true" ondragstart="drag(event)" id="drag02" />
+	</div>
+	<div id="div06" ondrop="drop(event)" ondragover="allowDrop(event)">
+	  <img src="res/1.jpg" draggable="true" ondragstart="drag(event)" id="drag01" />
+	</div>
+
+	<div id="div07" ondrop="drop(event)" ondragover="allowDrop(event)">
+	  <img src="res/4.jpg" draggable="true" ondragstart="drag(event)" id="drag04" />
+	</div>
+	<div id="div08" ondrop="drop(event)" ondragover="allowDrop(event)">
+	  <img src="res/7.jpg" draggable="true" ondragstart="drag(event)" id="drag07" />
+	</div>
+	<div id="div09" ondrop="drop(event)" ondragover="allowDrop(event)">
+	  <img src="res/5.jpg" draggable="true" ondragstart="drag(event)" id="drag05" />
+	</div>
+
+	<div id="div10" ondrop="drop(event)" ondragover="allowDrop(event)">
+	</div>
+	<div id="div11" ondrop="drop(event)" ondragover="allowDrop(event)">
+	</div>
+	<div id="div12" ondrop="drop(event)" ondragover="allowDrop(event)">
+	</div>
+</div>
+</body>
+</html>
